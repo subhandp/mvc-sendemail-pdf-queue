@@ -7,14 +7,18 @@ module.exports = {
                 content: "content post",
                 tags: "home,post",
                 status: "publish",
-                AuthorId: 1
+                AuthorId: 1,
+                createdAt: new Date(),
+                updatedAt: new Date()
             },
             {
                 title: "title post 2",
                 content: "content post 2",
                 tags: "home,post, lain",
                 status: "not publish",
-                AuthorId: 1
+                AuthorId: 1,
+                createdAt: new Date(),
+                updatedAt: new Date()
             }
         ]);
     },

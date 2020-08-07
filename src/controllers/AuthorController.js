@@ -15,12 +15,10 @@ class AuthorController {
             response.data = authorRes;
             response.message = "Succes get data";
             res.status(200).json(response);
-            console.log(response)
         } catch (error) {
             response.status = "error";
             response.message = error.message;
             res.status(400).json(response);
-            console.log(error);
         }
     }
 
@@ -39,24 +37,9 @@ class AuthorController {
             response.status = "error";
             response.message = error.message;
             res.status(400).json(response);
-            console.log(error);
         }
     }
 
-
-    static todoDelete = async(todoId) => {
-        try {
-            await Todo.destroy({
-                where: {
-                    id: todoId
-                }
-            }).then((val) => {
-                console.log('Berhasil hapus data')
-            });
-        } catch (err) {
-            console.log('Kesalahan, data gagal di hapus')
-        }
-    }
 
 
     static async deleteAuthorById(req, res) {
