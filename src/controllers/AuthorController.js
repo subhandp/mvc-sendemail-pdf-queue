@@ -1,4 +1,4 @@
-const { Author } = require("../models");
+const { Author, Post } = require("../models");
 const { sequelize } = require('../models/author.js');
 
 const response = {
@@ -26,7 +26,9 @@ class AuthorController {
 
     static async getAuthorById(req, res) {
         try {
-            const authorRes = await Author.findByPk(req.params.id);
+            const authorRes = await Author.findByPk(req.params.id, {
+                include: Post
+            });
             if (!authorRes)
                 throw Error('data for params id null')
             response.data = authorRes;
