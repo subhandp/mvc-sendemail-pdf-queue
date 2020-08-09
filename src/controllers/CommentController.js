@@ -1,5 +1,6 @@
 const { Author, Post, Comment } = require("../models");
 
+
 const response = {
     data: [],
     message: "Your Message",
@@ -7,38 +8,39 @@ const response = {
 };
 
 
-class AuthorController {
-    static async getAuthor(req, res) {
+class commentController {
+    static async getcomment(req, res) {
         try {
-            const authorRes = await Author.findAll();
-            response.data = authorRes;
-            response.message = "Succes get data";
+            const commentRes = await Comment.findAll();
+            response.data = commentRes;
+            response.status = "OK";
+            response.message = "Success get all";
             res.status(200).json(response);
         } catch (error) {
             response.data = undefined
-            response.status = "error";
+            response.status = "ERROR";
             response.message = error.message;
             res.status(400).json(response);
         }
     }
 
-    static async getAuthorById(req, res) {
+    static async getcommentById(req, res) {
         try {
-            const authorRes = await Author.findByPk(req.params.id, {
+            const commentRes = await Comment.findByPk(req.params.id, {
                 include: [
-                    { model: Post },
                     { model: Comment }
                 ]
             });
-            if (!authorRes)
+            if (!commentRes)
                 throw Error('data for params id null')
-            response.data = authorRes;
-            response.message = "Succes get data";
+            response.data = commentRes;
+            response.message = "Success get comment by id";
+            response.status = "OK";
             res.status(200).json(response);
         } catch (error) {
             response.data = undefined
             response.message = "error get data";
-            response.status = "error";
+            response.status = "ERROR";
             response.message = error.message;
             res.status(400).json(response);
         }
@@ -46,40 +48,40 @@ class AuthorController {
 
 
 
-    static async deleteAuthorById(req, res) {
+    static async deletecommentById(req, res) {
         try {
-            const authorRes = await Author.findByPk(req.body.id);
-            if (!authorRes)
+            const commentRes = await Comment.findByPk(req.body.id);
+            if (!commentRes)
                 throw Error('delete data for params id null')
-            await Author.destroy({ where: { id: req.body.id } });
+            await comment.destroy({ where: { id: req.body.id } });
             response.data = req.body.id;
             response.message = "Succes delete data";
+            response.status = "OK";
             res.status(200).json(response);
         } catch (error) {
             response.data = undefined
             response.message = "error delete data";
-            response.status = "error";
+            response.status = "ERROR";
             response.message = error.message;
             res.status(400).json(response);
             console.log(error);
         }
     }
 
-    static async updateAuthor(req, res) {
+    static async updatecomment(req, res) {
         try {
-            await Author.update(req.body, {
+            await Comment.update(req.body, {
                 where: {
                     id: req.params.id
                 }
             });
             response.data = req.body;
-            console.log(req.body)
+            response.status = "OK";
             response.message = "Updated data by PATCH success";
             res.status(200).json(response);
-            console.log(response)
         } catch (error) {
             response.data = undefined
-            response.status = "error update by PATCH";
+            response.status = "ERROR";
             response.message = error.message;
             res.status(400).json(response);
             console.log(error);
@@ -87,20 +89,18 @@ class AuthorController {
 
     }
 
-    static async createAuthor(req, res) {
+    static async createcomment(req, res) {
         try {
-            await Author.create(req.body);
+            await Comment.create(req.body);
             response.data = req.body;
-            console.log(req.body)
             response.message = "create data success";
+            response.status = "OK";
             res.status(200).json(response);
-            console.log(response)
         } catch (error) {
             response.data = undefined
-            response.status = "error create data";
+            response.status = "ERROR";
             response.message = error.message;
             res.status(400).json(response);
-            console.log(error);
         }
 
     }
@@ -108,4 +108,4 @@ class AuthorController {
 
 }
 
-module.exports = AuthorController;
+module.exports = CommentController;
