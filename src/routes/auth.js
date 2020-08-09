@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
@@ -15,7 +17,7 @@ router.post('/', async(req, res, next) => {
             req.login(user, { session: false }, async(error) => {
                 if (error) return next(error.message)
                 const body = { _id: user._id, email: user.email };
-                const token = jwt.sign({ user: body }, 'bootcamp');
+                const token = jwt.sign({ user: body }, process.env.PRIVATE_KEY);
                 return res.status(200).json({
                     "status": "OK",
                     "token": token

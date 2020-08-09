@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -14,7 +15,6 @@ const { Author } = require("./src/models");
 
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
-
 
 app.use(
     bodyParser.urlencoded({
@@ -51,7 +51,7 @@ passport.use('login', new localStrategy(
 //Menggunakan parameter get untuk menerima token
 //{{local}}/author?secret_token=--token--
 passport.use(new JWTstrategy({
-    secretOrKey: 'bootcamp',
+    secretOrKey: process.env.PRIVATE_KEY,
     jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
 }, async(token, done) => {
     try {
