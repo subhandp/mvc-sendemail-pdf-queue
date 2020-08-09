@@ -8,8 +8,8 @@ const response = {
 };
 
 
-class commentController {
-    static async getcomment(req, res) {
+class CommentController {
+    static async getComment(req, res) {
         try {
             const commentRes = await Comment.findAll();
             response.data = commentRes;
@@ -24,13 +24,9 @@ class commentController {
         }
     }
 
-    static async getcommentById(req, res) {
+    static async getCommentById(req, res) {
         try {
-            const commentRes = await Comment.findByPk(req.params.id, {
-                include: [
-                    { model: Comment }
-                ]
-            });
+            const commentRes = await Comment.findByPk(req.params.id);
             if (!commentRes)
                 throw Error('data for params id null')
             response.data = commentRes;
@@ -48,7 +44,7 @@ class commentController {
 
 
 
-    static async deletecommentById(req, res) {
+    static async deleteCommentById(req, res) {
         try {
             const commentRes = await Comment.findByPk(req.body.id);
             if (!commentRes)
@@ -68,7 +64,7 @@ class commentController {
         }
     }
 
-    static async updatecomment(req, res) {
+    static async updateComment(req, res) {
         try {
             await Comment.update(req.body, {
                 where: {
@@ -89,7 +85,7 @@ class commentController {
 
     }
 
-    static async createcomment(req, res) {
+    static async createComment(req, res) {
         try {
             await Comment.create(req.body);
             response.data = req.body;
