@@ -15,23 +15,23 @@ const { Author } = require("./src/models");
 
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
-const cloudinary = require('cloudinary').v2
-const multer = require('multer')
-const path = require('path');
-const datauri = require('datauri/parser');
+// const cloudinary = require('cloudinary').v2
+// const multer = require('multer')
+// const path = require('path');
+// const datauri = require('datauri/parser');
 
-const mydatauri = new datauri();
-const dataUri = req => mydatauri.format(path.extname(req.file.originalname), req.file.buffer);
+// const mydatauri = new datauri();
+// const dataUri = req => mydatauri.format(path.extname(req.file.originalname), req.file.buffer);
 
-const storage = multer.memoryStorage();
-const multerUploads = multer({ storage }).single('image');
+// const storage = multer.memoryStorage();
+// const multerUploads = multer({ storage }).single('image');
 
 
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_API_KEY,
-    api_secret: process.env.CLOUD_API_SECRET
-});
+// cloudinary.config({
+//     cloud_name: process.env.CLOUD_NAME,
+//     api_key: process.env.CLOUD_API_KEY,
+//     api_secret: process.env.CLOUD_API_SECRET
+// });
 
 
 app.use(
@@ -46,28 +46,28 @@ app.use("/author", passport.authenticate('jwt', { session: false }), routerAutho
 app.use("/post", passport.authenticate('jwt', { session: false }), routerPost);
 app.use("/comment", passport.authenticate('jwt', { session: false }), routerComment);
 app.use("/login", routerAuth);
-app.post("/upload-image-cloud", multerUploads, (request, response) => {
-    console.log('req.file : ', request.file);
-    const file = dataUri(request).content;
-    console.log(file)
-    return cloudinary.uploader.upload(file).then((result) => {
-        const image = result.url;
-        return res.status(200).json({
-            message: 'Your image has been uploded successfully to cloudinary',
-            data: {
-                image
-            }
-        });
-    }).catch((error) => {
-        res.status(400).json({
-            messge: 'someting went wrong while processing your request',
-            data: {
-                err
-            }
-        });
-    });
+// app.post("/upload-image-cloud", multerUploads, (request, response) => {
+//     console.log('req.file : ', request.file);
+//     const file = dataUri(request).content;
+//     console.log(file)
+//     return cloudinary.uploader.upload(file).then((result) => {
+//         const image = result.url;
+//         return res.status(200).json({
+//             message: 'Your image has been uploded successfully to cloudinary',
+//             data: {
+//                 image
+//             }
+//         });
+//     }).catch((error) => {
+//         res.status(400).json({
+//             messge: 'someting went wrong while processing your request',
+//             data: {
+//                 err
+//             }
+//         });
+//     });
 
-})
+// })
 
 
 
@@ -89,8 +89,6 @@ passport.use('login', new localStrategy(
     }
 ));
 
-//Menggunakan parameter get untuk menerima token
-//{{local}}/author?secret_token=--token--
 passport.use(new JWTstrategy({
     secretOrKey: process.env.PRIVATE_KEY,
     jwtFromRequest: ExtractJWT.fromHeader('authorization')

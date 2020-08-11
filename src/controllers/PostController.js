@@ -1,4 +1,6 @@
 const { Author, Post, Comment } = require("../models");
+const { uploadCloudinary } = require("./Upload");
+
 
 
 const response = {
@@ -91,7 +93,9 @@ class PostController {
 
     static async createPost(req, res) {
         try {
+            console.log(req.body);
             await Post.create(req.body);
+            await uploadCloudinary(req);
             response.data = req.body;
             response.message = "create data success";
             response.status = "OK";
