@@ -1,7 +1,7 @@
 # mvc-cloud-upload
-
+{{local}} : domain
 # Mendapatkan Token
-{{local}}/login
+url : {{local}}/login
 
 Data body:
 ```js
@@ -18,8 +18,8 @@ Result
 }
 ```
 # Upload image pada cloudinary
-Upload image pada cloudinary pada url menggunakan method POST
-{{local}}/post
+Upload image cloudinary method POST
+url : {{local}}/post
 
 Header :
 ```js
