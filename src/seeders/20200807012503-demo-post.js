@@ -8,6 +8,7 @@ module.exports = {
                 tags: "home,post",
                 status: "publish",
                 AuthorId: 1,
+                urlImage: "",
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
@@ -17,6 +18,7 @@ module.exports = {
                 tags: "home,post, lain",
                 status: "not publish",
                 AuthorId: 1,
+                urlImage: "",
                 createdAt: new Date(),
                 updatedAt: new Date()
             }

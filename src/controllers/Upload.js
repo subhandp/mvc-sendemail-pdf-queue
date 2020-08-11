@@ -17,16 +17,11 @@ cloudinary.config({
     api_secret: process.env.CLOUD_API_SECRET
 });
 
-const uploadCloudinary = async(request) => {
-    const file = dataUri(request).content;
-    await cloudinary.uploader.upload(file).then((result) => {
+const uploadCloudinary = async(req, res) => {
+    const file = dataUri(req).content;
+    return await cloudinary.uploader.upload(file).then((result) => {
         const image = result.url;
-        return res.status(200).json({
-            message: 'Your image has been uploded successfully to cloudinary',
-            data: {
-                image
-            }
-        });
+        return { urlImage: image }
     }).catch((error) => {
         throw new Error(error);
     })

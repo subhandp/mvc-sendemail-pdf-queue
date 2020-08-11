@@ -93,10 +93,10 @@ class PostController {
 
     static async createPost(req, res) {
         try {
-            console.log(req.body);
-            await Post.create(req.body);
-            await uploadCloudinary(req);
-            response.data = req.body;
+            const dataImage = await uploadCloudinary(req, res);
+            const dataCreate = {...req.body, ...dataImage };
+            await Post.create(dataCreate);
+            response.data = dataCreate;
             response.message = "create data success";
             response.status = "OK";
             res.status(200).json(response);
