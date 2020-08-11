@@ -23,6 +23,9 @@ module.exports = {
             AuthorId: {
                 type: Sequelize.INTEGER
             },
+            urlImage: {
+                type: Sequelize.STRING
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE
