@@ -2,6 +2,8 @@
 
 http://localhost:3000/auth/register
 Method post
+```js 
+
 Data JSON RAW: 
 {
     "username": "",
@@ -10,3 +12,4 @@ Data JSON RAW:
     "email": "",
     "profile": ""
 }
+```
