@@ -32,8 +32,9 @@ app.use("/author", passport.authenticate('jwt', { session: false }), routerAutho
 app.use("/post", passport.authenticate('jwt', { session: false }), routerPost);
 app.use("/comment", passport.authenticate('jwt', { session: false }), routerComment);
 app.use("/auth", routerAuth);
-app.get("/email", async(req, res) => {
-    res.render("email", {});
+app.get("/user/print/email/:id", async(req, res) => {
+    const result = await Author.findByPk(req.params.id)
+    res.render("email", { user: result.dataValues });
 });
 
 

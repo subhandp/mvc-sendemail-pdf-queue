@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
-// const Bull = require('bull');
-// const sendMailQueue = new Bull('sendMail');
+
+
 class Email {
     static emailTemplate(dataEmail) {
         const html = /*html*/ `

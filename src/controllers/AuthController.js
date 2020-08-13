@@ -5,10 +5,8 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const Email = require("./../helpers/sendEmail");
 const Webpage = require("./../helpers/pdf");
-
 const Bull = require('bull');
 const sendMailQueue = new Bull('sendMail');
-
 
 const response = {
     data: [],
@@ -45,28 +43,26 @@ class AuthController {
     static async createAuthor(req, res) {
         try {
             const createResult = await Author.create(req.body);
-            const url = 'http://localhost:3000/email';
-            const bufferPdf = await Webpage.generatePDF(url);
-
+            const url = `http://localhost:3000/user/print/email/${createResult.dataValues.id}`;
+            console.log(url);
             const dataEmail = {
                 username: createResult.dataValues.username,
                 email: createResult.dataValues.email
             };
             const options = {
-                delay: 5000, // 1 min in ms
+                delay: 5000,
             };
             sendMailQueue.add(dataEmail, options);
-
             sendMailQueue.process(async job => {
                 return await Email.sendEmail(
                     dataEmail,
                     "Welcome to our Amazing App",
                     "welcome.pdf",
-                    bufferPdf
+                    await Webpage.generatePDF(url)
                 );
-            });
-
-
+            }).then((val) => {
+                console.log(val)
+            })
             response.data = dataEmail;
             response.message = "Register author success";
             res.status(200).json(response);
@@ -80,5 +76,8 @@ class AuthController {
 
     }
 }
+
+
+
 
 module.exports = AuthController;
