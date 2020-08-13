@@ -87,25 +87,6 @@ class AuthorController {
 
     }
 
-    static async createAuthor(req, res) {
-        try {
-            await Author.create(req.body);
-            response.data = req.body;
-            console.log(req.body)
-            response.message = "create data success";
-            res.status(200).json(response);
-            console.log(response)
-        } catch (error) {
-            response.data = undefined
-            response.status = "error create data";
-            response.message = error.message;
-            res.status(400).json(response);
-            console.log(error);
-        }
-
-    }
-
-
 }
 
 module.exports = AuthorController;

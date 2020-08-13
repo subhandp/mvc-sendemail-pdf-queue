@@ -5,7 +5,6 @@ const AuthorController = require("../controllers/AuthorController");
 
 router.route("/")
     .get(AuthorController.getAuthor)
-    .post(AuthorController.createAuthor)
     .delete(AuthorController.deleteAuthorById)
 router.route("/:id")
     .get(AuthorController.getAuthorById)

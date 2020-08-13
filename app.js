@@ -16,6 +16,9 @@ const { Author } = require("./src/models");
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
+// Configure view engine to render EJS templates.
+app.set('views', __dirname + '/src/views');
+app.set("view engine", "ejs");
 
 app.use(
     bodyParser.urlencoded({
@@ -28,7 +31,11 @@ app.use(bodyParser.json());
 app.use("/author", passport.authenticate('jwt', { session: false }), routerAuthor);
 app.use("/post", passport.authenticate('jwt', { session: false }), routerPost);
 app.use("/comment", passport.authenticate('jwt', { session: false }), routerComment);
-app.use("/login", routerAuth);
+app.use("/auth", routerAuth);
+app.get("/email", async(req, res) => {
+    res.render("email", {});
+});
+
 
 passport.use('login', new localStrategy(
     async(username, password, done) => {
