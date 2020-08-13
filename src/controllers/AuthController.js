@@ -6,6 +6,10 @@ const nodemailer = require("nodemailer");
 const Email = require("./../helpers/sendEmail");
 const Webpage = require("./../helpers/pdf");
 
+const Bull = require('bull');
+const sendMailQueue = new Bull('sendMail');
+
+
 const response = {
     data: [],
     message: "Your Message",
@@ -48,12 +52,21 @@ class AuthController {
                 username: createResult.dataValues.username,
                 email: createResult.dataValues.email
             };
-            Email.sendEmail(
-                dataEmail,
-                "Welcome to our Amazing App",
-                "welcome.pdf",
-                bufferPdf
-            )
+            const options = {
+                delay: 5000, // 1 min in ms
+            };
+            sendMailQueue.add(dataEmail, options);
+
+            sendMailQueue.process(async job => {
+                return await Email.sendEmail(
+                    dataEmail,
+                    "Welcome to our Amazing App",
+                    "welcome.pdf",
+                    bufferPdf
+                );
+            });
+
+
             response.data = dataEmail;
             response.message = "Register author success";
             res.status(200).json(response);

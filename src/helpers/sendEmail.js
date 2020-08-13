@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
-
+// const Bull = require('bull');
+// const sendMailQueue = new Bull('sendMail');
 class Email {
     static emailTemplate(dataEmail) {
         const html = /*html*/ `
@@ -33,7 +34,6 @@ class Email {
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                // throw error(error);
                 return console.log(error);
             }
             console.log('Message sent: %s', info.messageId);
